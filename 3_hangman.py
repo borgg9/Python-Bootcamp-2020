@@ -5,8 +5,7 @@ import random
 dictionary = json.load(open("data.json"))
 
 # Random word
-x=random.randint(0,len(dictionary.keys()))
-palabra_adivinar = (list(dictionary.keys())[x]).lower()
+palabra_adivinar = random.choice(list(dictionary.keys())).lower()
 
 # palabra con espacios
 palabra_espacios = []
@@ -33,9 +32,9 @@ def ahorcado(x):
     if x == 7:print("  +---+\n" + "  |   |\n" + " \O/  |\n" + "  |   |       \n" + "   \  |\n" + "      |\n" + "=========")
     if x == 8:print("  +---+\n" + "  |   |\n" + " \O/  |\n" + "  |   |       \n" + " / \  |\n" + "      |\n" + "=========")
     if x == 9:print("  +---+\n" + "  |   |\n" + "  O   |\n" + " /|\  |       \n" + " / \  |\n" + "      |\n" + "========= Game over")
-
-        
-print("Adivina la palabra:" + (' '.join(palabra_espacios)))
+      
+    
+print("Adivina la palabra:" + (' '.join(palabra_espacios)) + " en menos de 10 tiradas.")
   
 #Check the letter    
 for intento in range(intentos):
@@ -44,8 +43,13 @@ for intento in range(intentos):
 
     #letra que se mete en la tira
     letra_dicha = (input("Está esta letra?: ")).lower()
-    letras_dichas += letra_dicha
-
+   
+    while letra_dicha not in "abcdefghijklmnñopqrstuvwxyz ":
+        print(str(letra_dicha) + ": caracter no correcto")
+        letra_dicha = (input("Vuelve a probar: ")).lower()    
+    if letra_dicha in "abcdefghijklmnñopqrstuvwxyz ":
+        letras_dichas += letra_dicha    
+         
     #analiza las letras elegidas
     palabra_espacios = []
     for letra_palabra in palabra_adivinar:
@@ -59,12 +63,6 @@ for intento in range(intentos):
     print("Letras dichas: " + (", ".join(letras_dichas)))
    
     #Revision, win?
-    revision = 0
-    for w in range(len(letras_dichas)):
-        if str(letras_dichas[w]) in palabra_adivinar:
-            revision += 1
-            revision += 1
-
     analisis = 0
     for x in palabra_adivinar:
         for letra in letras_dichas:
@@ -77,5 +75,3 @@ for intento in range(intentos):
     
     #print hangman
     ahorcado(intento)
-      
-    
